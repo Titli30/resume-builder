@@ -3,49 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Advanced Resume Builder</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Modern Resume Builder</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <div class="form-section">
+    <div class="form-container">
       <h2>Resume Builder</h2>
+      <input type="file" id="photo" accept="image/*" />
       <input type="text" id="name" placeholder="Your Name" />
       <input type="email" id="email" placeholder="Your Email" />
       <input type="tel" id="phone" placeholder="Your Phone" />
-      <input type="text" id="linkedin" placeholder="LinkedIn URL" />
-      <input type="text" id="github" placeholder="GitHub URL" />
+      <input type="text" id="linkedin" placeholder="LinkedIn Profile" />
+      <input type="text" id="github" placeholder="GitHub Profile" />
       <textarea id="summary" placeholder="Professional Summary"></textarea>
       <textarea id="education" placeholder="Education"></textarea>
       <textarea id="experience" placeholder="Experience"></textarea>
-      <textarea id="skills" placeholder="Skills (comma-separated)"></textarea>
-      <input type="file" id="photo" accept="image/*" />
+      <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
+      <textarea id="projects" placeholder="Projects"></textarea>
+      <textarea id="school" placeholder="School"></textarea>
+      <textarea id="college" placeholder="College"></textarea>
+      <textarea id="hobbies" placeholder="Hobbies"></textarea>
+      <textarea id="languages" placeholder="Languages Known"></textarea>
+
+      <label for="theme">Choose Theme:</label>
       <select id="theme">
-        <option value="light-theme">Light</option>
-        <option value="dark-theme">Dark</option>
-        <option value="colorful-theme">Colorful</option>
+        <option value="theme-default">Default</option>
+        <option value="theme-blue">Blue</option>
+        <option value="theme-green">Green</option>
+        <option value="theme-dark">Dark</option>
       </select>
-      <button onclick="downloadPDF()">Download as PDF</button>
+
+      <button onclick="downloadPDF()">Download PDF</button>
     </div>
 
-    <div class="preview-section">
-      <h2>Live Preview</h2>
-      <div id="resumeContainer" class="resume light-theme">
-        <img id="previewPhoto" src="" alt="Photo" />
-        <h2 id="previewName">Your Name</h2>
-        <p><strong>Email:</strong> <span id="previewEmail">email@example.com</span></p>
-        <p><strong>Phone:</strong> <span id="previewPhone">1234567890</span></p>
-        <p><strong>LinkedIn:</strong> <span id="previewLinkedIn">linkedin.com/in/you</span></p>
-        <p><strong>GitHub:</strong> <span id="previewGitHub">github.com/you</span></p>
-        <p><strong>Summary:</strong></p>
-        <p id="previewSummary">Summary goes here</p>
-        <p><strong>Education:</strong></p>
-        <p id="previewEducation">Your education background</p>
-        <p><strong>Experience:</strong></p>
-        <p id="previewExperience">Your work experience</p>
-        <p><strong>Skills:</strong></p>
-        <p id="previewSkills">Your skills</p>
-      </div>
+    <div id="resumeContainer" class="resume theme-default">
+      <img id="previewPhoto" class="photo" src="" alt="Photo" />
+      <h1 id="previewName">Your Name</h1>
+      <p><strong>Email:</strong> <span id="previewEmail"></span></p>
+      <p><strong>Phone:</strong> <span id="previewPhone"></span></p>
+      <p><strong>LinkedIn:</strong> <span id="previewLinkedIn"></span></p>
+      <p><strong>GitHub:</strong> <span id="previewGitHub"></span></p>
+      <p><strong>Summary:</strong> <span id="previewSummary"></span></p>
+      <p><strong>Education:</strong> <span id="previewEducation"></span></p>
+      <p><strong>Experience:</strong> <span id="previewExperience"></span></p>
+      <p><strong>Skills:</strong> <span id="previewSkills"></span></p>
+      <p><strong>Projects:</strong> <span id="previewProjects"></span></p>
+      <p><strong>School:</strong> <span id="previewSchool"></span></p>
+      <p><strong>College:</strong> <span id="previewCollege"></span></p>
+      <p><strong>Hobbies:</strong> <span id="previewHobbies"></span></p>
+      <p><strong>Languages:</strong> <span id="previewLanguages"></span></p>
     </div>
   </div>
 
