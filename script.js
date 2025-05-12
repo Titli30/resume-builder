@@ -12,7 +12,7 @@ const skillsInput = document.getElementById('skills');
 const photoInput = document.getElementById('photo');
 const themeSelector = document.getElementById('theme');
 
-const resumeBox = document.getElementById('resumePreview');
+const resumeBox = document.getElementById('resumeContainer');
 
 const updatePreview = () => {
   document.getElementById('previewName').innerText = nameInput.value || 'Your Name';
@@ -44,25 +44,22 @@ photoInput.addEventListener('change', () => {
   }
 });
 
-// Theme switcher
 if (themeSelector) {
   themeSelector.addEventListener('change', () => {
     resumeBox.className = 'resume ' + themeSelector.value;
   });
 }
 
-// PDF download
 function downloadPDF() {
   const element = document.getElementById('resumeContainer');
   const opt = {
-    margin:       0,
-    filename:     'resume.pdf',
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    margin: 0,
+    filename: 'resume.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
   };
   html2pdf().set(opt).from(element).save();
 }
 
-// Initial preview
 updatePreview();
