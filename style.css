@@ -91,6 +91,12 @@ button:hover {
   text-align: center;
 }
 
+.creative h1 {
+  font-size: 30px;
+  color: #e91e63;
+  font-style: italic;
+}
+
 /* Themes */
 .resume.light {
   background: #ffffff;
