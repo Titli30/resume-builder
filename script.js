@@ -10,6 +10,11 @@ const educationInput = document.getElementById('education');
 const experienceInput = document.getElementById('experience');
 const skillsInput = document.getElementById('skills');
 const photoInput = document.getElementById('photo');
+const projectInput = document.getElementById('projects');
+const schoolInput = document.getElementById('school');
+const collegeInput = document.getElementById('college');
+const hobbiesInput = document.getElementById('hobbies');
+const languagesInput = document.getElementById('languages');
 const themeSelector = document.getElementById('theme');
 
 const resumeBox = document.getElementById('resumeContainer');
@@ -24,11 +29,17 @@ const updatePreview = () => {
   document.getElementById('previewEducation').innerText = educationInput.value || 'Education';
   document.getElementById('previewExperience').innerText = experienceInput.value || 'Experience';
   document.getElementById('previewSkills').innerText = skillsInput.value || 'Skills';
+  document.getElementById('previewProjects').innerText = projectInput.value || 'Projects';
+  document.getElementById('previewSchool').innerText = schoolInput.value || 'School';
+  document.getElementById('previewCollege').innerText = collegeInput.value || 'College';
+  document.getElementById('previewHobbies').innerText = hobbiesInput.value || 'Hobbies';
+  document.getElementById('previewLanguages').innerText = languagesInput.value || 'Languages';
 };
 
 const inputs = [
   nameInput, emailInput, phoneInput, linkedinInput, githubInput,
-  summaryInput, educationInput, experienceInput, skillsInput
+  summaryInput, educationInput, experienceInput, skillsInput,
+  projectInput, schoolInput, collegeInput, hobbiesInput, languagesInput
 ];
 
 inputs.forEach(input => input.addEventListener('input', updatePreview));
