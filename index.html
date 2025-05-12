@@ -8,9 +8,13 @@
 </head>
 <body>
   <div class="container">
-    <!-- Form Section -->
+    <!-- Resume Form -->
     <div class="form-section">
-      <h2>Resume Form</h2>
+      <h2>Resume Builder</h2>
+      
+      <label for="photo">Upload Photo</label>
+      <input type="file" id="photo" accept="image/*" />
+
       <input type="text" id="name" placeholder="Full Name" />
       <input type="email" id="email" placeholder="Email" />
       <input type="tel" id="phone" placeholder="Phone Number" />
@@ -26,15 +30,27 @@
         <option value="light">Light</option>
         <option value="dark">Dark</option>
         <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="elegant">Elegant</option>
       </select>
 
-      <button onclick="downloadPDF()">Download as PDF</button>
+      <label for="template">Select Template:</label>
+      <select id="template">
+        <option value="classic">Classic</option>
+        <option value="modern">Modern</option>
+        <option value="minimal">Minimal</option>
+      </select>
+
+      <button onclick="downloadPDF()">Download PDF</button>
     </div>
 
-    <!-- Preview Section -->
+    <!-- Resume Preview -->
     <div class="preview-section">
       <h2>Live Preview</h2>
-      <div id="resumePreview" class="resume light">
+      <div id="resumePreview" class="resume light classic">
+        <div class="photo-wrapper">
+          <img id="previewPhoto" src="assets/default-avatar.png" alt="Profile Photo" />
+        </div>
         <h1 id="previewName">Your Name</h1>
         <p><strong>Email:</strong> <span id="previewEmail">example@email.com</span></p>
         <p><strong>Phone:</strong> <span id="previewPhone">1234567890</span></p>
@@ -42,16 +58,16 @@
         <p><strong>GitHub:</strong> <span id="previewGitHub">github.com/yourname</span></p>
 
         <h3>Summary</h3>
-        <p id="previewSummary">A short summary will appear here.</p>
+        <p id="previewSummary">A brief professional summary.</p>
 
         <h3>Education</h3>
-        <p id="previewEducation">Your education details go here.</p>
+        <p id="previewEducation">Your educational background.</p>
 
         <h3>Experience</h3>
-        <p id="previewExperience">Your experience details go here.</p>
+        <p id="previewExperience">Work experience details.</p>
 
         <h3>Skills</h3>
-        <p id="previewSkills">Your skills go here.</p>
+        <p id="previewSkills">Your skillset.</p>
       </div>
     </div>
   </div>
