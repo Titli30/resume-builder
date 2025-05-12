@@ -11,59 +11,58 @@ const experienceInput = document.getElementById('experience');
 const skillsInput = document.getElementById('skills');
 const photoInput = document.getElementById('photo');
 const themeSelector = document.getElementById('theme');
-const templateSelector = document.getElementById('template');
 
 const resumeBox = document.getElementById('resumePreview');
 
-// Update live preview
 const updatePreview = () => {
   document.getElementById('previewName').innerText = nameInput.value || 'Your Name';
-  document.getElementById('previewEmail').innerText = emailInput.value || 'example@email.com';
-  document.getElementById('previewPhone').innerText = phoneInput.value || '1234567890';
-  document.getElementById('previewLinkedIn').innerText = linkedinInput.value || 'linkedin.com/in/yourname';
-  document.getElementById('previewGitHub').innerText = githubInput.value || 'github.com/yourname';
-  document.getElementById('previewSummary').innerText = summaryInput.value || 'A brief professional summary.';
-  document.getElementById('previewEducation').innerText = educationInput.value || 'Your educational background.';
-  document.getElementById('previewExperience').innerText = experienceInput.value || 'Work experience details.';
-  document.getElementById('previewSkills').innerText = skillsInput.value || 'Your skillset.';
+  document.getElementById('previewEmail').innerText = emailInput.value || 'Email';
+  document.getElementById('previewPhone').innerText = phoneInput.value || 'Phone';
+  document.getElementById('previewLinkedIn').innerText = linkedinInput.value || 'LinkedIn';
+  document.getElementById('previewGitHub').innerText = githubInput.value || 'GitHub';
+  document.getElementById('previewSummary').innerText = summaryInput.value || 'Summary';
+  document.getElementById('previewEducation').innerText = educationInput.value || 'Education';
+  document.getElementById('previewExperience').innerText = experienceInput.value || 'Experience';
+  document.getElementById('previewSkills').innerText = skillsInput.value || 'Skills';
 };
 
-// Apply theme and template
-const applyStyle = () => {
-  resumeBox.className = `resume ${themeSelector.value} ${templateSelector.value}`;
-};
+const inputs = [
+  nameInput, emailInput, phoneInput, linkedinInput, githubInput,
+  summaryInput, educationInput, experienceInput, skillsInput
+];
 
-// Photo upload & preview
-photoInput.addEventListener('change', function () {
+inputs.forEach(input => input.addEventListener('input', updatePreview));
+
+photoInput.addEventListener('change', () => {
   const file = photoInput.files[0];
   if (file) {
     const reader = new FileReader();
-    reader.onload = function (e) {
-      document.getElementById('previewPhoto').src = e.target.result;
+    reader.onload = () => {
+      document.getElementById('previewPhoto').src = reader.result;
     };
     reader.readAsDataURL(file);
   }
 });
 
-// Bind input events
-[
-  nameInput, emailInput, phoneInput, linkedinInput, githubInput,
-  summaryInput, educationInput, experienceInput, skillsInput
-].forEach(input => input.addEventListener('input', updatePreview));
+// Theme switcher
+if (themeSelector) {
+  themeSelector.addEventListener('change', () => {
+    resumeBox.className = 'resume ' + themeSelector.value;
+  });
+}
 
-themeSelector.addEventListener('change', applyStyle);
-templateSelector.addEventListener('change', applyStyle);
-
-// Download as PDF
+// PDF download
 function downloadPDF() {
-  const element = document.getElementById('resumePreview');
+  const element = document.getElementById('resumeContainer');
   const opt = {
-    margin:       0.5,
+    margin:       0,
     filename:     'resume.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { scale: 2 },
     jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
   };
-  html2
-::contentReference[oaicite:0]{index=0}
- 
+  html2pdf().set(opt).from(element).save();
+}
+
+// Initial preview
+updatePreview();
