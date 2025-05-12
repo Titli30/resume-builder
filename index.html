@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modern Resume Builder</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Form Section -->
+    <div class="form-section">
+      <h2>Resume Form</h2>
+      <input type="text" id="name" placeholder="Full Name" />
+      <input type="email" id="email" placeholder="Email" />
+      <input type="tel" id="phone" placeholder="Phone Number" />
+      <input type="text" id="linkedin" placeholder="LinkedIn URL" />
+      <input type="text" id="github" placeholder="GitHub URL" />
+      <textarea id="summary" placeholder="Professional Summary"></textarea>
+      <textarea id="education" placeholder="Education"></textarea>
+      <textarea id="experience" placeholder="Experience"></textarea>
+      <textarea id="skills" placeholder="Skills (comma-separated)"></textarea>
+
+      <label for="theme">Select Theme:</label>
+      <select id="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="blue">Blue</option>
+      </select>
+
+      <button onclick="downloadPDF()">Download as PDF</button>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="preview-section">
+      <h2>Live Preview</h2>
+      <div id="resumePreview" class="resume light">
+        <h1 id="previewName">Your Name</h1>
+        <p><strong>Email:</strong> <span id="previewEmail">example@email.com</span></p>
+        <p><strong>Phone:</strong> <span id="previewPhone">1234567890</span></p>
+        <p><strong>LinkedIn:</strong> <span id="previewLinkedIn">linkedin.com/in/yourname</span></p>
+        <p><strong>GitHub:</strong> <span id="previewGitHub">github.com/yourname</span></p>
+
+        <h3>Summary</h3>
+        <p id="previewSummary">A short summary will appear here.</p>
+
+        <h3>Education</h3>
+        <p id="previewEducation">Your education details go here.</p>
+
+        <h3>Experience</h3>
+        <p id="previewExperience">Your experience details go here.</p>
+
+        <h3>Skills</h3>
+        <p id="previewSkills">Your skills go here.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
