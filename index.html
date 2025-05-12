@@ -2,92 +2,164 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Resume Builder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resume Builder</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
       padding: 20px;
     }
 
-    #resume {
-      display: none;
-      border: 1px solid #ccc;
-      padding: 20px;
+    form, .resume-output {
+      max-width: 900px;
+      margin: auto;
       background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    img.profile-pic {
-      width: 100px;
-      height: 100px;
+    input, textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #2e3a59;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      margin: 10px 10px 10px 0;
+      cursor: pointer;
+    }
+
+    .resume-container {
+      display: flex;
+    }
+
+    .left {
+      width: 35%;
+      background-color: #2e3a59;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .right {
+      width: 65%;
+      padding: 20px;
+    }
+
+    .profile-img {
+      width: 120px;
+      height: 120px;
       object-fit: cover;
       border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
 
-  <h1>Resume Builder</h1>
-  <input type="text" id="name" placeholder="Your Name" />
+<h2 style="text-align:center;">Resume Builder</h2>
+
+<form id="resumeForm">
   <input type="file" id="profileImage" accept="image/*" />
-  <button onclick="generateResume()">Generate Resume</button>
-  <button onclick="downloadPDF()">Download PDF</button>
+  <input type="text" id="fullName" placeholder="Full Name" required />
+  <input type="text" id="jobTitle" placeholder="Job Title" required />
+  <textarea id="summary" placeholder="Professional Summary" rows="3" required></textarea>
+  <input type="text" id="email" placeholder="Email" required />
+  <input type="text" id="phone" placeholder="Phone" required />
+  <input type="text" id="address" placeholder="Address" required />
+  <textarea id="skills" placeholder="Skills (comma separated)" required></textarea>
+  <textarea id="languages" placeholder="Languages (comma separated)" required></textarea>
+  <button type="submit">Generate Resume</button>
+  <button type="button" onclick="downloadPDF()">Download PDF</button>
+</form>
 
-  <div id="resume">
-    <img id="previewImage" class="profile-pic" src="" alt="Profile" />
-    <h2 id="outputName"></h2>
-  </div>
+<div class="resume-output hidden" id="resumeOutput"></div>
 
-  <script>
-    function generateResume() {
-      const name = document.getElementById("name").value;
-      const imageFile = document.getElementById("profileImage").files[0];
+<script>
+  document.getElementById("resumeForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-      document.getElementById("outputName").innerText = name;
+    const name = document.getElementById("fullName").value;
+    const title = document.getElementById("jobTitle").value;
+    const summary = document.getElementById("summary").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const address = document.getElementById("address").value;
+    const skills = document.getElementById("skills").value.split(",").join("<br>");
+    const languages = document.getElementById("languages").value.split(",").join("<br>");
+    const imageInput = document.getElementById("profileImage");
 
-      if (imageFile) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById("previewImage").src = e.target.result;
-          document.getElementById("resume").style.display = "block";
-        };
-        reader.readAsDataURL(imageFile);
-      } else {
-        document.getElementById("resume").style.display = "block";
-      }
+    const renderResume = (imageSrc = "") => {
+      const outputDiv = document.getElementById("resumeOutput");
+      outputDiv.innerHTML = `
+        <div id="resumeContainer" class="resume-container">
+          <div class="left">
+            ${imageSrc ? `<img src="${imageSrc}" class="profile-img" />` : ""}
+            <h2>${name}</h2>
+            <h4>${title}</h4>
+            <p>📧 ${email}</p>
+            <p>📞 ${phone}</p>
+            <p>📍 ${address}</p>
+            <h4>Skills</h4>
+            <p>${skills}</p>
+            <h4>Languages</h4>
+            <p>${languages}</p>
+          </div>
+          <div class="right">
+            <h3>Profile</h3>
+            <p>${summary}</p>
+          </div>
+        </div>
+      `;
+      outputDiv.classList.remove("hidden");
+    };
+
+    if (imageInput.files && imageInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        renderResume(e.target.result);
+      };
+      reader.readAsDataURL(imageInput.files[0]);
+    } else {
+      renderResume();
+    }
+  });
+
+  function downloadPDF() {
+    const resume = document.getElementById("resumeOutput");
+    if (resume.classList.contains("hidden")) {
+      alert("Please generate your resume first.");
+      return;
     }
 
-    async function downloadPDF() {
-      const resume = document.getElementById("resume");
-
-      if (resume.style.display !== "block") {
-        alert("Please generate the resume first.");
-        return;
-      }
-
-      // Wait for image to load
-      const img = document.getElementById("previewImage");
-      if (img.src && !img.complete) {
-        await new Promise(resolve => {
-          img.onload = resolve;
-        });
-      }
-
+    // Delay to ensure DOM is ready
+    setTimeout(() => {
       const opt = {
-        margin: 0.3,
+        margin: 0,
         filename: 'resume.pdf',
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: {
-          scale: 2,
-          useCORS: true
-        },
+        html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
       };
-
       html2pdf().set(opt).from(resume).save();
-    }
-  </script>
+    }, 300);
+  }
+</script>
 
 </body>
 </html>
