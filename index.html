@@ -4,71 +4,47 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Advanced Resume Builder</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <!-- Resume Form -->
     <div class="form-section">
       <h2>Resume Builder</h2>
-      
-      <label for="photo">Upload Photo</label>
-      <input type="file" id="photo" accept="image/*" />
-
-      <input type="text" id="name" placeholder="Full Name" />
-      <input type="email" id="email" placeholder="Email" />
-      <input type="tel" id="phone" placeholder="Phone Number" />
+      <input type="text" id="name" placeholder="Your Name" />
+      <input type="email" id="email" placeholder="Your Email" />
+      <input type="tel" id="phone" placeholder="Your Phone" />
       <input type="text" id="linkedin" placeholder="LinkedIn URL" />
       <input type="text" id="github" placeholder="GitHub URL" />
       <textarea id="summary" placeholder="Professional Summary"></textarea>
       <textarea id="education" placeholder="Education"></textarea>
       <textarea id="experience" placeholder="Experience"></textarea>
       <textarea id="skills" placeholder="Skills (comma-separated)"></textarea>
-
-      <label for="theme">Select Theme:</label>
+      <input type="file" id="photo" accept="image/*" />
       <select id="theme">
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-        <option value="blue">Blue</option>
-        <option value="green">Green</option>
-        <option value="elegant">Elegant</option>
+        <option value="light-theme">Light</option>
+        <option value="dark-theme">Dark</option>
+        <option value="colorful-theme">Colorful</option>
       </select>
-
-      <label for="template">Select Template:</label>
-      <select id="template">
-        <option value="classic">Classic</option>
-        <option value="modern">Modern</option>
-        <option value="minimal">Minimal</option>
-        <option value="creative">Creative</option>
-      </select>
-
-      <button onclick="downloadPDF()">Download PDF</button>
+      <button onclick="downloadPDF()">Download as PDF</button>
     </div>
 
-    <!-- Resume Preview -->
     <div class="preview-section">
       <h2>Live Preview</h2>
-      <div id="resumePreview" class="resume light classic">
-        <div class="photo-wrapper">
-          <img id="previewPhoto" src="assets/default-avatar.png" alt="Profile Photo" />
-        </div>
-        <h1 id="previewName">Your Name</h1>
-        <p><strong>Email:</strong> <span id="previewEmail">example@email.com</span></p>
+      <div id="resumeContainer" class="resume light-theme">
+        <img id="previewPhoto" src="" alt="Photo" />
+        <h2 id="previewName">Your Name</h2>
+        <p><strong>Email:</strong> <span id="previewEmail">email@example.com</span></p>
         <p><strong>Phone:</strong> <span id="previewPhone">1234567890</span></p>
-        <p><strong>LinkedIn:</strong> <span id="previewLinkedIn">linkedin.com/in/yourname</span></p>
-        <p><strong>GitHub:</strong> <span id="previewGitHub">github.com/yourname</span></p>
-
-        <h3>Summary</h3>
-        <p id="previewSummary">A brief professional summary.</p>
-
-        <h3>Education</h3>
-        <p id="previewEducation">Your educational background.</p>
-
-        <h3>Experience</h3>
-        <p id="previewExperience">Work experience details.</p>
-
-        <h3>Skills</h3>
-        <p id="previewSkills">Your skillset.</p>
+        <p><strong>LinkedIn:</strong> <span id="previewLinkedIn">linkedin.com/in/you</span></p>
+        <p><strong>GitHub:</strong> <span id="previewGitHub">github.com/you</span></p>
+        <p><strong>Summary:</strong></p>
+        <p id="previewSummary">Summary goes here</p>
+        <p><strong>Education:</strong></p>
+        <p id="previewEducation">Your education background</p>
+        <p><strong>Experience:</strong></p>
+        <p id="previewExperience">Your work experience</p>
+        <p><strong>Skills:</strong></p>
+        <p id="previewSkills">Your skills</p>
       </div>
     </div>
   </div>
