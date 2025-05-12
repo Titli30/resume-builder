@@ -34,13 +34,13 @@ function addProject() {
 
 document.getElementById('resumeForm').addEventListener('submit', function(e) {
   e.preventDefault();
+
   const fullName = document.getElementById('fullName').value;
   const title = document.getElementById('title').value;
   const profile = document.getElementById('profile').value;
   const email = document.getElementById('email').value;
   const phone = document.getElementById('phone').value;
   const address = document.getElementById('address').value;
-
   const skills = document.getElementById('skills').value;
   const languages = document.getElementById('languages').value;
 
@@ -113,6 +113,7 @@ document.getElementById('resumeForm').addEventListener('submit', function(e) {
         </div>
       </div>
     `;
+
     const output = document.getElementById('resumeOutput');
     output.innerHTML = resumeHTML;
     output.style.display = 'block';
@@ -122,9 +123,21 @@ document.getElementById('resumeForm').addEventListener('submit', function(e) {
 document.getElementById('downloadBtn').addEventListener('click', function() {
   const resume = document.getElementById('resumeOutput');
   if (resume.style.display === 'block') {
-    html2pdf().from(resume).save('resume.pdf');
+    // Ensure it's visible before downloading
+    resume.scrollIntoView({ behavior: 'smooth' });
+
+    // Delay for DOM to finish rendering
+    setTimeout(() => {
+      const opt = {
+        margin: 0.5,
+        filename: 'resume.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(resume).save();
+    }, 500);
   } else {
     alert('Please generate your resume first.');
   }
 });
-
