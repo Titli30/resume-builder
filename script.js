@@ -56,9 +56,14 @@ templateSelector.addEventListener('change', applyStyle);
 
 // Download as PDF
 function downloadPDF() {
-  html2pdf().from(resumeBox).save('resume.pdf');
-}
-
-// Initialize
-updatePreview();
-applyStyle();
+  const element = document.getElementById('resumePreview');
+  const opt = {
+    margin:       0.5,
+    filename:     'resume.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+  };
+  html2
+::contentReference[oaicite:0]{index=0}
+ 
