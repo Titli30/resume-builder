@@ -1,62 +1,42 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Modern Resume Builder</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-  <div class="container">
-    <div class="form-container">
-      <h2>Resume Builder</h2>
-      <input type="file" id="photo" accept="image/*" />
-      <input type="text" id="name" placeholder="Your Name" />
-      <input type="email" id="email" placeholder="Your Email" />
-      <input type="tel" id="phone" placeholder="Your Phone" />
-      <input type="text" id="linkedin" placeholder="LinkedIn Profile" />
-      <input type="text" id="github" placeholder="GitHub Profile" />
-      <textarea id="summary" placeholder="Professional Summary"></textarea>
-      <textarea id="education" placeholder="Education"></textarea>
-      <textarea id="experience" placeholder="Experience"></textarea>
-      <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
-      <textarea id="projects" placeholder="Projects"></textarea>
-      <textarea id="school" placeholder="School"></textarea>
-      <textarea id="college" placeholder="College"></textarea>
-      <textarea id="hobbies" placeholder="Hobbies"></textarea>
-      <textarea id="languages" placeholder="Languages Known"></textarea>
+<body class="{{ theme }}">
+  <form action="/generate" method="POST" enctype="multipart/form-data">
+    <div class="form-box">
+      <h2>Resume Details</h2>
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="text" name="title" placeholder="Job Title" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="tel" name="phone" placeholder="Phone" required>
+      <input type="text" name="location" placeholder="Location" required>
+      <textarea name="summary" placeholder="Profile Summary"></textarea>
+      <textarea name="experience" placeholder="Experience (format as bullet points)"></textarea>
+      <textarea name="education" placeholder="Education"></textarea>
+      <textarea name="skills" placeholder="Skills (comma-separated)"></textarea>
+      <textarea name="languages" placeholder="Languages (comma-separated)"></textarea>
+      <input type="file" name="photo" accept="image/*">
 
-      <label for="theme">Choose Theme:</label>
-      <select id="theme">
-        <option value="theme-default">Default</option>
-        <option value="theme-blue">Blue</option>
-        <option value="theme-green">Green</option>
-        <option value="theme-dark">Dark</option>
+      <label>Select Theme:</label>
+      <select name="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="blue">Blue</option>
       </select>
 
-      <button onclick="downloadPDF()">Download PDF</button>
-    </div>
+      <label>Select Template:</label>
+      <select name="template">
+        <option value="template1">Modern Left Panel</option>
+        <option value="template2">Centered Layout</option>
+      </select>
 
-    <div id="resumeContainer" class="resume theme-default">
-      <img id="previewPhoto" class="photo" src="" alt="Photo" />
-      <h1 id="previewName">Your Name</h1>
-      <p><strong>Email:</strong> <span id="previewEmail"></span></p>
-      <p><strong>Phone:</strong> <span id="previewPhone"></span></p>
-      <p><strong>LinkedIn:</strong> <span id="previewLinkedIn"></span></p>
-      <p><strong>GitHub:</strong> <span id="previewGitHub"></span></p>
-      <p><strong>Summary:</strong> <span id="previewSummary"></span></p>
-      <p><strong>Education:</strong> <span id="previewEducation"></span></p>
-      <p><strong>Experience:</strong> <span id="previewExperience"></span></p>
-      <p><strong>Skills:</strong> <span id="previewSkills"></span></p>
-      <p><strong>Projects:</strong> <span id="previewProjects"></span></p>
-      <p><strong>School:</strong> <span id="previewSchool"></span></p>
-      <p><strong>College:</strong> <span id="previewCollege"></span></p>
-      <p><strong>Hobbies:</strong> <span id="previewHobbies"></span></p>
-      <p><strong>Languages:</strong> <span id="previewLanguages"></span></p>
+      <button type="submit">Generate PDF</button>
     </div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="script.js"></script>
+  </form>
 </body>
 </html>
