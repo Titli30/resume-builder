@@ -1,93 +1,151 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Resume Builder</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
+<script>
+  function addExperience() {
+    const div = document.createElement('div');
+    div.className = 'exp-entry';
+    div.innerHTML = `
+      <input type="text" placeholder="Job Title" class="jobTitle" required />
+      <input type="text" placeholder="Company Name" class="company" required />
+      <input type="text" placeholder="Duration (e.g. Jan 2021 - Dec 2022)" class="duration" required />
+      <textarea placeholder="Job Responsibilities" class="jobDetails" rows="3" required></textarea>
+    `;
+    document.getElementById('experienceSection').appendChild(div);
+  }
+
+  function addEducation() {
+    const div = document.createElement('div');
+    div.className = 'edu-entry';
+    div.innerHTML = `
+      <input type="text" placeholder="Degree" class="degree" required />
+      <input type="text" placeholder="Institution" class="institution" required />
+      <input type="text" placeholder="Duration (e.g. Jan 2019 - Dec 2020)" class="eduDuration" required />
+    `;
+    document.getElementById('educationSection').appendChild(div);
+  }
+
+  function addProject() {
+    const div = document.createElement('div');
+    div.className = 'project-entry';
+    div.innerHTML = `
+      <input type="text" placeholder="Project Title" class="projectTitle" required />
+      <textarea placeholder="Project Description" class="projectDesc" rows="3" required></textarea>
+      <input type="text" placeholder="Project Link (optional)" class="projectLink" />
+    `;
+    document.getElementById('projectSection').appendChild(div);
+  }
+
+  document.getElementById('resumeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const fullName = document.getElementById('fullName').value;
+    const title = document.getElementById('title').value;
+    const profile = document.getElementById('profile').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+
+    const skills = document.getElementById('skills').value;
+    const languages = document.getElementById('languages').value;
+
+    const expEntries = document.querySelectorAll('.exp-entry');
+    let expHTML = '';
+    expEntries.forEach(entry => {
+      const jobTitle = entry.querySelector('.jobTitle').value;
+      const company = entry.querySelector('.company').value;
+      const duration = entry.querySelector('.duration').value;
+      const jobDetails = entry.querySelector('.jobDetails').value;
+      expHTML += `<h4>${jobTitle} <span style="float:right; color: #555;">${duration}</span></h4><p>${company}</p><p>${jobDetails}</p>`;
+    });
+
+    const eduEntries = document.querySelectorAll('.edu-entry');
+    let eduHTML = '';
+    eduEntries.forEach(entry => {
+      const degree = entry.querySelector('.degree').value;
+      const institution = entry.querySelector('.institution').value;
+      const eduDuration = entry.querySelector('.eduDuration').value;
+      eduHTML += `<h4>${degree} <span style="float:right; color: #555;">${eduDuration}</span></h4><p>${institution}</p>`;
+    });
+
+    const projectEntries = document.querySelectorAll('.project-entry');
+    let projectHTML = '';
+    projectEntries.forEach(entry => {
+      const title = entry.querySelector('.projectTitle').value;
+      const desc = entry.querySelector('.projectDesc').value;
+      const link = entry.querySelector('.projectLink').value;
+      projectHTML += `<h4>${title}</h4><p>${desc}</p>${link ? `<p>🔗 <a href="${link}" target="_blank">${link}</a></p>` : ''}`;
+    });
+
+    const imageInput = document.getElementById('profileImage');
+    let imageSrc = '';
+
+    if (imageInput.files && imageInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        imageSrc = event.target.result;
+        renderResume(imageSrc);
+      };
+      reader.readAsDataURL(imageInput.files[0]);
+    } else {
+      renderResume('');
     }
 
-    #resume {
-      display: none;
-      border: 1px solid #ccc;
-      padding: 20px;
-      background: white;
+    function renderResume(imgSrc) {
+      const resumeHTML = `
+        <div id="resumeContainer" style="display: flex; border: 1px solid #ccc;">
+          <div style="width: 35%; background: #2e3a59; color: white; padding: 20px; text-align: center;">
+            ${imgSrc ? `<img src="${imgSrc}" class="profile-img" alt="Profile Image" />` : ''}
+            <h2>${fullName}</h2>
+            <h4>${title}</h4>
+            <p>📧 ${email}</p>
+            <p>📞 ${phone}</p>
+            <p>📍 ${address}</p>
+            <h4>Skills</h4>
+            <p>${skills.replace(/,/g, '<br>')}</p>
+            <h4>Languages</h4>
+            <p>${languages.replace(/,/g, '<br>')}</p>
+          </div>
+          <div style="width: 65%; padding: 20px;">
+            <h3>Profile</h3>
+            <p>${profile}</p>
+            <h3>Work Experience</h3>
+            ${expHTML}
+            <h3>Education</h3>
+            ${eduHTML}
+            <h3>Projects</h3>
+            ${projectHTML}
+          </div>
+        </div>
+      `;
+
+      const output = document.getElementById('resumeOutput');
+      output.innerHTML = resumeHTML;
+      output.style.display = 'block';
     }
+  });
 
-    img.profile-pic {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-  </style>
-</head>
-<body>
+  document.getElementById('downloadBtn').addEventListener('click', async function () {
+    const resume = document.getElementById('resumeOutput');
 
-  <h1>Resume Builder</h1>
-  <input type="text" id="name" placeholder="Your Name" />
-  <input type="file" id="profileImage" accept="image/*" />
-  <button onclick="generateResume()">Generate Resume</button>
-  <button onclick="downloadPDF()">Download PDF</button>
-
-  <div id="resume">
-    <img id="previewImage" class="profile-pic" src="" alt="Profile" />
-    <h2 id="outputName"></h2>
-  </div>
-
-  <script>
-    function generateResume() {
-      const name = document.getElementById("name").value;
-      const imageFile = document.getElementById("profileImage").files[0];
-
-      document.getElementById("outputName").innerText = name;
-
-      if (imageFile) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById("previewImage").src = e.target.result;
-          document.getElementById("resume").style.display = "block";
-        };
-        reader.readAsDataURL(imageFile);
-      } else {
-        document.getElementById("resume").style.display = "block";
-      }
-    }
-
-    async function downloadPDF() {
-      const resume = document.getElementById("resume");
-
-      if (resume.style.display !== "block") {
-        alert("Please generate the resume first.");
-        return;
-      }
-
-      // Wait for image to load
-      const img = document.getElementById("previewImage");
-      if (img.src && !img.complete) {
-        await new Promise(resolve => {
-          img.onload = resolve;
-        });
-      }
+    if (resume.style.display === 'block') {
+      // Scroll into view and wait for rendering
+      resume.scrollIntoView();
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       const opt = {
-        margin: 0.3,
+        margin: 0,
         filename: 'resume.pdf',
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
           scale: 2,
-          useCORS: true
+          useCORS: true,
+          logging: true,
+          allowTaint: true,
         },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
       };
 
       html2pdf().set(opt).from(resume).save();
+    } else {
+      alert('Please generate your resume first.');
     }
-  </script>
-
-</body>
-</html>
+  });
+</script>
